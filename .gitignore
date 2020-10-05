@@ -1,0 +1,11 @@
+# node_modulesなどはgitにcommit、pushする必要はない https://qiita.com/growsic/items/b2965c0ba3b0aaae1ff8
+# ディレクトリを指定する場合
+node_modules/
+
+# ファイルのパターン一致でコンパイルなどで生成したファイルを指定する場合
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
