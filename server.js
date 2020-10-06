@@ -1,18 +1,21 @@
 const express = require("express");
-
 const app = express();
+// server used for socket io
+const server = require("http").Server(app);
+const io = require("socket.io")(server);
+// to create unique room id
+const { v4: uuidV4 } = require("uuid");
 
-app.use((req, res, next) => {
-  console.log("hello");
-  next();
-});
+app.set("view engine", "ejs");
+app.use(express.static("public"));
 
+// server create unique room URL and redirect user
 app.get("/", (req, res) => {
-  res.send("this is root!");
+  res.redirect(`/${uuidV4()}`);
 });
 
-app.get("/profile", (req, res) => {
-  res.send("this is profile page!");
+app.get("/:room", (req, res) => {
+  res.render("room", { roomId: req.params.room });
 });
 
-app.listen(3000);
+server.listen(3000);
