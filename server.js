@@ -18,6 +18,8 @@ io.on("connection", (socket) => {
   // add event listener which will be triggered when user have userId and roomId
   socket.on("join-room", (roomId, userId) => {
     console.log(roomId, userId);
+    socket.join(roomId);
+    socket.to(roomId).broadcast.emit("user-connected", userId);
   });
 });
 
