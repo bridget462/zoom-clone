@@ -14,6 +14,13 @@ app.get("/", (req, res) => {
   res.redirect(`/${uuidV4()}`);
 });
 
+io.on("connection", (socket) => {
+  // add event listener which will be triggered when user have userId and roomId
+  socket.on("join-room", (roomId, userId) => {
+    console.log(roomId, userId);
+  });
+});
+
 app.get("/:room", (req, res) => {
   res.render("room", { roomId: req.params.room });
 });
