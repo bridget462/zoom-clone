@@ -8,6 +8,7 @@ const videoGrid = document.getElementById("video-grid");
 const myVideo = document.createElement("video");
 // mute ourself
 myVideo.muted = true;
+const peers = [];
 
 navigator.mediaDevices
   .getUserMedia({
@@ -33,6 +34,12 @@ navigator.mediaDevices
     });
   });
 
+socket.on("user-disconnected", (userId) => {
+  if (peers[userId]) {
+    peers[userId].close();
+  }
+});
+
 // when connecting peer server, get generated unique id and do things
 myPeer.on("open", (id) => {
   // calling socket event listener defined at server.js
@@ -51,6 +58,8 @@ function connectToNewUser(userId, stream) {
   call.on("close", () => {
     video.remove();
   });
+
+  peers[userId] = call;
 }
 
 function addVideoStream(video, stream) {
